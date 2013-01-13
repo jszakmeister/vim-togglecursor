@@ -15,6 +15,18 @@ terminal, you loose that feature.  This plugin aims to help bring it back on
 supported terminals.
 
 ==============================================================================
+SUPPORTED TERMINALS                                   *togglecursor-supported*
+
+Currently supported terminals are iTerm2 for the Mac and KDE's Konsole.  The
+xterm console is partially supported as well.  Older xterm's didn't support
+the line cursor, so this plugin currently sets the cursor to underline
+instead.
+
+The gnome-terminal application doesn't support changing the cursor via escape
+sequences and is not supported.  On unsupported terminals, Vim's default
+behavior is left unaltered.
+
+==============================================================================
 LIMITATIONS                                         *togglecursor-limitations*
 
 Since this plugin relies on detecting on the type of terminal being run, it
@@ -25,7 +37,7 @@ This also doesn't support all terminals.  Currently, only iTerm2 for the Mac,
 and Konsole under Linux are supported.  Others may be added later, as long as
 there is a safe way to detect and add that support.
 
-Finally, this plugin works by setting the |t_SI| and |t_EI| options.  So there
+Also, this plugin works by setting the |t_SI| and |t_EI| options, so there
 are some limits as to what it can do.  For instance, assume your default
 cursor type in the terminal is to have an underline cursor When Vim will
 exits, it will leave the cursor in block mode (due to the |t_EI| setting) and
