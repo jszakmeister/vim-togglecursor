@@ -26,6 +26,9 @@ The gnome-terminal application doesn't support changing the cursor via escape
 sequences and is not supported.  On unsupported terminals, Vim's default
 behavior is left unaltered.
 
+The plugin also supports tmux, and will change your cursor inside a tmux
+session too.
+
 ==============================================================================
 LIMITATIONS                                         *togglecursor-limitations*
 
