@@ -15,7 +15,7 @@ terminal, you loose that feature.  This plugin aims to help bring it back on
 supported terminals.
 
 ==============================================================================
-ISSUES                                                   *togglecursor-issues*
+LIMITATIONS                                         *togglecursor-limitations*
 
 Since this plugin relies on detecting on the type of terminal being run, it
 will not work automatically when working remotely.  The required environment
