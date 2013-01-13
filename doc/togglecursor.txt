@@ -11,7 +11,7 @@ INTRODUCTION                                                    *togglecursor*
 
 In gVim, when you change from normal mode to insert mode, the cursor shape
 typically changes from a block cursor to a line ('|') cursor.  However, in a
-terminal, you loose that feature.  This plugin aims to help bring it back on
+terminal, you lose that feature.  This plugin aims to help bring it back on
 supported terminals.
 
 ==============================================================================
