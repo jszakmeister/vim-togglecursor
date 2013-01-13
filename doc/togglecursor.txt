@@ -1,0 +1,43 @@
+*togglecursor.txt*  Change cursor in insert mode
+
+Author:  John Szakmeister <http://www.szakmeister.net/>
+License: Same terms as Vim itself (see |license|)
+
+This plugin is only available if 'compatible' is not set, and your vim has
+been compiled with |+cursorshape| support.
+
+==============================================================================
+INTRODUCTION                                                    *togglecursor*
+
+In gVim, when you change from normal mode to insert mode, the cursor shape
+typically changes from a block cursor to a line ('|') cursor.  However, in a
+terminal, you loose that feature.  This plugin aims to help bring it back on
+supported terminals.
+
+==============================================================================
+ISSUES                                                   *togglecursor-issues*
+
+Since this plugin relies on detecting on the type of terminal being run, it
+will not work automatically when working remotely.  The required environment
+variables are simply not available.
+
+This also doesn't support all terminals.  Currently, only iTerm2 for the Mac,
+and Konsole under Linux are supported.  Others may be added later, as long as
+there is a safe way to detect and add that support.
+
+Finally, this plugin works by setting the |t_SI| and |t_EI| options.  So there
+are some limits as to what it can do.  For instance, assume your default
+cursor type in the terminal is to have an underline cursor When Vim will
+exits, it will leave the cursor in block mode (due to the |t_EI| setting) and
+effectively clobber your terminal's configuration.  Unfortunately, there's no
+way to store the current cursor settings from a terminal, and therefore, no
+way to restore the original state.
+
+==============================================================================
+ABOUT                                                     *togglecursor-about*
+
+Grab the latest version or report a bug on GitHub:
+
+https://github.com/jszakmeister/vim-togglecursor
+
+vim:ft=help
