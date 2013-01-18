@@ -45,7 +45,13 @@ function! s:TmuxEscape(line)
 endfunction
 
 function! s:GetEscapeCode(shape)
-    return s:{s:supported_terminal}_{a:shape}
+    let l:escape_code = s:{s:supported_terminal}_{a:shape}
+
+    if s:in_tmux
+        return s:TmuxEscape(l:escape_code)
+    endif
+
+    return l:escape_code
 endfunction
 
 function! s:ToggleCursorInit()
@@ -53,16 +59,8 @@ function! s:ToggleCursorInit()
         return
     endif
 
-    let new_si = s:GetEscapeCode(g:togglecursor_insert)
-    let new_ei = s:GetEscapeCode(g:togglecursor_default)
-
-    if s:in_tmux
-        let &t_EI = s:TmuxEscape(new_ei)
-        let &t_SI = s:TmuxEscape(new_si)
-    else
-        let &t_EI = new_ei
-        let &t_SI = new_si
-    endif
+    let &t_EI = s:GetEscapeCode(g:togglecursor_default)
+    let &t_SI = s:GetEscapeCode(g:togglecursor_insert)
 endfunction
 
 function! s:ToggleCursorLeave()
