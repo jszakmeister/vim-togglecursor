@@ -71,7 +71,7 @@ function! s:ToggleCursorLeave()
     " One of the last codes emitted to the terminal before exiting is the "out
     " of termcap" sequence.  Tack our escape sequence to change the cursor type
     " onto the end of the sequence.
-    let &t_te .= s:GetEscapeCode(g:togglecursor_leave)
+    let &t_te = s:GetEscapeCode(g:togglecursor_leave) . &t_te
 endfunction
 
 augroup ToggleCursorStartup
