@@ -50,6 +50,9 @@ if !exists("g:togglecursor_leave")
     let g:togglecursor_leave = g:togglecursor_default
 endif
 
+if !exists("g:togglecursor_disable_tmux")
+    let g:togglecursor_disable_tmux = 0
+endif
 
 " -------------------------------------------------------------
 " Functions
@@ -61,8 +64,16 @@ function! s:TmuxEscape(line)
     return "\<Esc>Ptmux;" . escaped_line . "\<Esc>\\"
 endfunction
 
+function! s:SupportedTerminal()
+    if s:supported_terminal == '' || (s:in_tmux && g:togglecursor_disable_tmux)
+        return 0
+    endif
+
+    return 1
+endfunction
+
 function! s:GetEscapeCode(shape)
-    if s:supported_terminal == ''
+    if !s:SupportedTerminal()
         return ''
     endif
 
@@ -76,7 +87,7 @@ function! s:GetEscapeCode(shape)
 endfunction
 
 function! s:ToggleCursorInit()
-    if s:supported_terminal == ''
+    if !s:SupportedTerminal()
         return
     endif
 

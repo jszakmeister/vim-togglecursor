@@ -32,8 +32,8 @@ session too.
 ==============================================================================
 OPTIONS                                                 *togglecursor-options*
 
-All the options take a string representing the shape.  The shape is allowed to
-be one of 'block', 'line', or 'underline'.
+All the cursor options take a string representing the shape.  The shape is
+allowed to be one of 'block', 'line', or 'underline'.
 
                                                         *togglecursor_default*
 g:togglecursor_default  The default cursor shape.  It is used in all modes
@@ -47,6 +47,16 @@ g:togglecursor_insert   The insert mode cursor shape.  The default value is
 g:togglecursor_leave    The cursor shape to set when exiting Vim.  The default
                         value is to be the same a |togglecursor_default|.
 
+                                                   *togglecursor_disable_tmux*
+
+In some versions of tmux, the passthrough handling appears to be slightly
+broken.  When you are on the last line of a short file, and delete a line with
+'dd', tmux appears to insert an extra line into the mix and distorts the
+terminal.  It appears to be fixed in tmux 1.7.  If you'd like to disable using
+tmux passthrough support to try and change the cursor, do the following in
+your vimrc: >
+
+    let g:togglecursor_disable_tmux = 1
 
 ==============================================================================
 LIMITATIONS                                         *togglecursor-limitations*
