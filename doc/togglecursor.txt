@@ -58,6 +58,11 @@ your vimrc: >
 
     let g:togglecursor_disable_tmux = 1
 
+The default value for |togglecursor_disable_tmux| is 0.
+
+Note: options should be overridden in your vimrc.  Changing them after Vim has
+loaded will have little or no effect.
+
 ==============================================================================
 LIMITATIONS                                      *togglecursor-limitations*
 
@@ -69,13 +74,18 @@ This also doesn't support all terminals.  Currently, only iTerm2 for the Mac,
 and Konsole under Linux are supported.  Others may be added later, as long as
 there is a safe way to detect and add that support.
 
-Also, this plugin works by setting the |t_SI| and |t_EI| options, so there are
-some limits as to what it can do.  For instance, assume your cursor type in
-the terminal is to have an underline cursor, but |togglecursor_default| is set
-to 'block'.  When Vim starts, the cursor will still be an underline cursor
-because the shape is only changed on entering and exiting insert mode.  The
-cursor will only become a block-style cursor after you've gone into and exited
-insert mode.
+Also, this plugin works by setting the |t_SI|, |t_EI|, |t_ti|, and |t_te|
+options and including special escape codes to let the terminal know how to
+change the cursor.  I've tried to avoid doing anything that would cause bad
+interaction with the terminal, but sometimes bugs happen.  If you run into an
+environment where cursor changing is a problem, put the following into your
+vimrc to disable the plugin: >
+
+    let g:togglecursor_loaded = 0
+
+Once such bug appears to exist in tmux 1.6, at least under Fedora 16.  If you
+experience troubles with cursor changing under tmux, you can disable cursor
+changing only under tmux using the |togglecursor_disable_tmux| option.
 
 ==============================================================================
 ABOUT                                            *togglecursor-about*
