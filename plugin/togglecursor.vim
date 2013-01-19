@@ -91,6 +91,8 @@ function! s:ToggleCursorLeave()
     let &t_te = s:GetEscapeCode(g:togglecursor_leave) . &t_te
 endfunction
 
+let &t_ti .= s:GetEscapeCode(g:togglecursor_default)
+
 augroup ToggleCursorStartup
     autocmd!
     autocmd VimEnter * call <SID>ToggleCursorInit()
