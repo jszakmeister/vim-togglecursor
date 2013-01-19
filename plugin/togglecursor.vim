@@ -62,6 +62,10 @@ function! s:TmuxEscape(line)
 endfunction
 
 function! s:GetEscapeCode(shape)
+    if s:supported_terminal == ''
+        return ''
+    endif
+
     let l:escape_code = s:{s:supported_terminal}_{a:shape}
 
     if s:in_tmux
@@ -81,10 +85,6 @@ function! s:ToggleCursorInit()
 endfunction
 
 function! s:ToggleCursorLeave()
-    if s:supported_terminal == ''
-        return ''
-    endif
-
     " One of the last codes emitted to the terminal before exiting is the "out
     " of termcap" sequence.  Tack our escape sequence to change the cursor type
     " onto the end of the sequence.
