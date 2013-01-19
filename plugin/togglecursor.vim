@@ -87,11 +87,13 @@ endfunction
 function! s:ToggleCursorLeave()
     " One of the last codes emitted to the terminal before exiting is the "out
     " of termcap" sequence.  Tack our escape sequence to change the cursor type
-    " onto the end of the sequence.
+    " onto the beginning of the sequence.
     let &t_te = s:GetEscapeCode(g:togglecursor_leave) . &t_te
 endfunction
 
-let &t_ti .= s:GetEscapeCode(g:togglecursor_default)
+" Having our escape come first seems to work better with tmux and konsole under
+" Linux.
+let &t_ti = s:GetEscapeCode(g:togglecursor_default) . &t_ti
 
 augroup ToggleCursorStartup
     autocmd!
