@@ -1,5 +1,5 @@
 " ============================================================================
-" File:         togglecursor.vim 
+" File:         togglecursor.vim
 " Description:  Toggles cursor shape in the terminal
 " Maintainer:   John Szakmeister <john@szakmeister.net>
 " License:      Same license as Vim.
@@ -32,11 +32,28 @@ if !has("gui_running")
     endif
 endif
 
-let g:togglecursor_default = 'block'
-let g:togglecursor_insert =
-            \ (s:supported_terminal == 'xterm') ? 'underline' : 'line'
-let g:togglecursor_leave = 'block'
 
+" -------------------------------------------------------------
+" Options
+" -------------------------------------------------------------
+
+if !exists("g:togglecursor_default")
+    let g:togglecursor_default = 'block'
+endif
+
+if !exists("g:togglecursor_insert")
+    let g:togglecursor_insert =
+                \ (s:supported_terminal == 'xterm') ? 'underline' : 'line'
+endif
+
+if !exists("g:togglecursor_leave")
+    let g:togglecursor_leave = g:togglecursor_default
+endif
+
+
+" -------------------------------------------------------------
+" Functions
+" -------------------------------------------------------------
 
 function! s:TmuxEscape(line)
     " Tmux has an escape hatch for talking to the real terminal.  Use it.

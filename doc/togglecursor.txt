@@ -30,6 +30,25 @@ The plugin also supports tmux, and will change your cursor inside a tmux
 session too.
 
 ==============================================================================
+OPTIONS                                                 *togglecursor-options*
+
+All the options take a string representing the shape.  The shape is allowed to
+be one of 'block', 'line', or 'underline'.
+
+                                                        *togglecursor_default*
+g:togglecursor_default  The default cursor shape.  It is used in all modes
+                        except insert mode.  The default value is 'block'.
+
+                                                         *togglecursor_insert*
+g:togglecursor_insert   The insert mode cursor shape.  The default value is
+                        'line'.
+
+                                                          *togglecursor_leave*
+g:togglecursor_leave    The cursor shape to set when exiting Vim.  The default
+                        value is to be the same a |togglecursor_default|.
+
+
+==============================================================================
 LIMITATIONS                                         *togglecursor-limitations*
 
 Since this plugin relies on detecting on the type of terminal being run, it
@@ -40,13 +59,13 @@ This also doesn't support all terminals.  Currently, only iTerm2 for the Mac,
 and Konsole under Linux are supported.  Others may be added later, as long as
 there is a safe way to detect and add that support.
 
-Also, this plugin works by setting the |t_SI| and |t_EI| options, so there
-are some limits as to what it can do.  For instance, assume your default
-cursor type in the terminal is to have an underline cursor When Vim will
-exits, it will leave the cursor in block mode (due to the |t_EI| setting) and
-effectively clobber your terminal's configuration.  Unfortunately, there's no
-way to store the current cursor settings from a terminal, and therefore, no
-way to restore the original state.
+Also, this plugin works by setting the |t_SI| and |t_EI| options, so there are
+some limits as to what it can do.  For instance, assume your cursor type in
+the terminal is to have an underline cursor, but |togglecursor_default| is set
+to 'block'.  When Vim starts, the cursor will still be an underline cursor
+because the shape is only changed on entering and exiting insert mode.  The
+cursor will only become a block-style cursor after you've gone into and exited
+insert mode.
 
 ==============================================================================
 ABOUT                                                     *togglecursor-about*
