@@ -1,6 +1,6 @@
 *togglecursor.txt*  Change cursor in insert mode
 
-Author:  John Szakmeister <http://www.szakmeister.net/>
+Author:  John Szakmeister <john@szakmeister.net>
 License: Same terms as Vim itself (see |license|)
 
 This plugin is only available if 'compatible' is not set, and your vim has
