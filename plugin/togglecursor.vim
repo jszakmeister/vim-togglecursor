@@ -15,6 +15,10 @@ let s:cursorshape_underline = "\<Esc>]50;CursorShape=2\x7"
 let s:cursorshape_line = "\<Esc>]50;CursorShape=1\x7"
 let s:cursorshape_block = "\<Esc>]50;CursorShape=0\x7"
 
+" Not used yet, but don't want to forget them.
+let s:cursorshape_enableblink = "\<Esc>]50;BlinkingCursorEnabled=1\x7"
+let s:cursorshape_disableblink = "\<Esc>]50;BlinkingCursorEnabled=0\x7"
+
 let s:xterm_underline = "\<Esc>[4 q"
 let s:xterm_line = "\<Esc>[6 q"
 let s:xterm_block = "\<Esc>[2 q"
