@@ -19,9 +19,16 @@ let s:cursorshape_block = "\<Esc>]50;CursorShape=0\x7"
 let s:cursorshape_enableblink = "\<Esc>]50;BlinkingCursorEnabled=1\x7"
 let s:cursorshape_disableblink = "\<Esc>]50;BlinkingCursorEnabled=0\x7"
 
+" Note: newer iTerm's support the DECSCUSR extension (same one used in xterm).
+
 let s:xterm_underline = "\<Esc>[4 q"
 let s:xterm_line = "\<Esc>[6 q"
 let s:xterm_block = "\<Esc>[2 q"
+
+" Not used yet, but don't want to forget them.
+let s:xterm_blinking_block = "\<Esc>[0 q"
+let s:xterm_blinking_line = "\<Esc>[5 q"
+let s:xterm_blinking_underline = "\<Esc>[3 q"
 
 let s:in_tmux = exists("$TMUX")
 
