@@ -25,7 +25,8 @@ let s:supported_terminal = ''
 
 " Check for supported terminals.
 if !has("gui_running")
-    if $TERM_PROGRAM == "iTerm.app" || $KONSOLE_DBUS_SESSION != ""
+    if $TERM_PROGRAM == "iTerm.app" || exists("$ITERM_SESSION_ID")
+                \ || $KONSOLE_DBUS_SESSION != ""
         " Konsole and  iTerm support using CursorShape.
         let s:supported_terminal = 'cursorshape'
     elseif $XTERM_VERSION != ''
