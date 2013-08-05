@@ -81,7 +81,7 @@ interaction with the terminal, but sometimes bugs happen.  If you run into an
 environment where cursor changing is a problem, put the following into your
 vimrc to disable the plugin: >
 
-    let g:togglecursor_loaded = 0
+    let g:loaded_togglecursor = 0
 
 Once such bug appears to exist in tmux 1.6, at least under Fedora 16.  If you
 experience troubles with cursor changing under tmux, you can disable cursor
