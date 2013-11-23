@@ -87,6 +87,14 @@ Once such bug appears to exist in tmux 1.6, at least under Fedora 16.  If you
 experience troubles with cursor changing under tmux, you can disable cursor
 changing only under tmux using the |togglecursor_disable_tmux| option.
 
+It's also been noticed that Konsole will clear the profile name when using
+togglecursor.  It turns out that toggling the cursor--even through ANSI
+sequences--modifies the profile causing Konsole to clear the name.  As a
+result, if you make other changes you'll want to select your normal profile
+name and save them there.  The bug has been reported to Konsole, but it's
+unclear what they're going to do about it.  The bug was reported here:
+https://bugs.kde.org/show_bug.cgi?id=323227.
+
 ==============================================================================
 ABOUT                                            *togglecursor-about*
 
