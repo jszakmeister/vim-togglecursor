@@ -42,6 +42,18 @@ if !has("gui_running")
         let s:supported_terminal = 'cursorshape'
     elseif $XTERM_VERSION != ''
         let s:supported_terminal = 'xterm'
+    elseif $COLORTERM == 'gnome-terminal'
+        let s:supported_terminal = 'gnome-terminal'
+
+        " Profile uuid used in current gnome-terminal.
+        let s:gnome_terminal_profile_uuid =
+            \system('gsettings get org.gnome.Terminal.ProfilesList default')
+        " gsettings return a string with ' and \n so...
+        let s:gnome_terminal_profile_uuid =
+            \substitute(s:gnome_terminal_profile_uuid, "'", "", "g")
+        let s:gnome_terminal_profile_uuid =
+            \substitute(s:gnome_terminal_profile_uuid, "\n", "", "g")
+
     endif
 endif
 
@@ -55,8 +67,13 @@ if !exists("g:togglecursor_default")
 endif
 
 if !exists("g:togglecursor_insert")
-    let g:togglecursor_insert =
-                \ (s:supported_terminal == 'xterm') ? 'underline' : 'line'
+    if s:supported_terminal == 'xterm'
+        let g:togglecursor_insert = 'underline'
+    elseif s:supported_terminal == 'gnome-terminal'
+        let g:togglecursor_insert = 'ibeam'
+    else
+        let g:togglecursor_insert = 'line'
+    endif
 endif
 
 if !exists("g:togglecursor_leave")
@@ -86,7 +103,7 @@ function! s:SupportedTerminal()
 endfunction
 
 function! s:GetEscapeCode(shape)
-    if !s:SupportedTerminal()
+    if !s:SupportedTerminal() || s:supported_terminal == 'gnome-terminal'
         return ''
     endif
 
@@ -99,8 +116,19 @@ function! s:GetEscapeCode(shape)
     return l:escape_code
 endfunction
 
+function! s:ChangeCursorShape(shape)
+    if s:supported_terminal == 'gnome-terminal' && a:shape != ''
+        silent execute "!gsettings set
+            \ org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:
+            \/:".s:gnome_terminal_profile_uuid."/ cursor-shape ".a:shape
+    endif
+endfunction
+
 function! s:ToggleCursorInit()
     if !s:SupportedTerminal()
+        return
+    elseif s:supported_terminal == 'gnome-terminal'
+        call <SID>ChangeCursorShape(g:togglecursor_default)
         return
     endif
 
@@ -109,6 +137,10 @@ function! s:ToggleCursorInit()
 endfunction
 
 function! s:ToggleCursorLeave()
+    if s:supported_terminal == 'gnome-terminal'
+        call <SID>ChangeCursorShape(g:togglecursor_leave)
+        return
+    endif
     " One of the last codes emitted to the terminal before exiting is the "out
     " of termcap" sequence.  Tack our escape sequence to change the cursor type
     " onto the beginning of the sequence.
@@ -123,4 +155,6 @@ augroup ToggleCursorStartup
     autocmd!
     autocmd VimEnter * call <SID>ToggleCursorInit()
     autocmd VimLeave * call <SID>ToggleCursorLeave()
+    autocmd InsertEnter * call <SID>ChangeCursorShape(g:togglecursor_insert)
+    autocmd InsertLeave * call <SID>ChangeCursorShape(g:togglecursor_default)
 augroup END
