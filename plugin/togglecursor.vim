@@ -37,7 +37,8 @@ let s:supported_terminal = ''
 " Check for supported terminals.
 if !has("gui_running")
     if $TERM_PROGRAM == "iTerm.app" || exists("$ITERM_SESSION_ID")
-                \ || $XTERM_VERSION != "" || $VTE_VERSION != ""
+                \ || $XTERM_VERSION != ""
+        ""|| $VTE_VERSION != ""
         " iterm, xterm and future vte based terminals support DESCCUSR
         let s:supported_terminal = 'xterm'
     elseif $KONSOLE_DBUS_SESSION != ""
