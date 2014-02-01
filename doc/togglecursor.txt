@@ -33,7 +33,8 @@ session too.
 OPTIONS                                          *togglecursor-options*
 
 All the cursor options take a string representing the shape.  The shape is
-allowed to be one of 'block', 'line', or 'underline'.
+allowed to be one of 'block', 'blinking_block', 'line', 'blinking_line',
+'underline', or 'blinking_underline'.
 
                                                  *togglecursor_default*
 g:togglecursor_default  The default cursor shape.  It is used in all modes
