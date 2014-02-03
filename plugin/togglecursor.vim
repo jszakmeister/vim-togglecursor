@@ -11,13 +11,13 @@ if exists('g:loaded_togglecursor') || &cp || !has("cursorshape")
 endif
 let g:loaded_togglecursor = 1
 
-let s:cursorshape_underline = "\<Esc>]50;CursorShape=2\x7"
-let s:cursorshape_line = "\<Esc>]50;CursorShape=1\x7"
-let s:cursorshape_block = "\<Esc>]50;CursorShape=0\x7"
+let s:cursorshape_underline = "\<Esc>]50;CursorShape=2;BlinkingCursorEnabled=0\x7"
+let s:cursorshape_line = "\<Esc>]50;CursorShape=1;BlinkingCursorEnabled=0\x7"
+let s:cursorshape_block = "\<Esc>]50;CursorShape=0;BlinkingCursorEnabled=0\x7"
 
-" Not used yet, but don't want to forget them.
-let s:cursorshape_enableblink = "\<Esc>]50;BlinkingCursorEnabled=1\x7"
-let s:cursorshape_disableblink = "\<Esc>]50;BlinkingCursorEnabled=0\x7"
+let s:cursorshape_blinking_underline = "\<Esc>]50;CursorShape=2;BlinkingCursorEnabled=1\x7"
+let s:cursorshape_blinking_line = "\<Esc>]50;CursorShape=1;BlinkingCursorEnabled=1\x7"
+let s:cursorshape_blinking_block = "\<Esc>]50;CursorShape=0;BlinkingCursorEnabled=1\x7"
 
 " Note: newer iTerm's support the DECSCUSR extension (same one used in xterm).
 
@@ -37,11 +37,13 @@ let s:supported_terminal = ''
 " Check for supported terminals.
 if !has("gui_running")
     if $TERM_PROGRAM == "iTerm.app" || exists("$ITERM_SESSION_ID")
-                \ || $KONSOLE_DBUS_SESSION != ""
-        " Konsole and  iTerm support using CursorShape.
-        let s:supported_terminal = 'cursorshape'
-    elseif $XTERM_VERSION != ''
+                \ || $XTERM_VERSION != ""
+                " \ || $VTE_VERSION != ""
+        " iTerm, xterm, and future VTE based terminals support DESCCUSR.
         let s:supported_terminal = 'xterm'
+    elseif $KONSOLE_DBUS_SESSION != ""
+        "cursorshape for konsole
+        let s:supported_terminal = 'cursorshape'
     endif
 endif
 
@@ -55,8 +57,14 @@ if !exists("g:togglecursor_default")
 endif
 
 if !exists("g:togglecursor_insert")
-    let g:togglecursor_insert =
-                \ (s:supported_terminal == 'xterm') ? 'underline' : 'line'
+    let g:togglecursor_insert = 'line'
+    if exists("$XTERM_VERSION")
+        let xterm_patch = str2nr(matchstr($XTERM_VERSION,
+                    \ '\v^XTerm\(\zs\d+\ze\)'))
+        if xterm_patch < 282
+            let g:togglecursor_insert = 'underline'
+        endif
+    endif
 endif
 
 if !exists("g:togglecursor_leave")
