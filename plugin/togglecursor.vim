@@ -57,8 +57,14 @@ if !exists("g:togglecursor_default")
 endif
 
 if !exists("g:togglecursor_insert")
-    let g:togglecursor_insert =
-                \ (s:supported_terminal == 'xterm') ? 'underline' : 'line'
+    let g:togglecursor_insert = 'line'
+    if exists("$XTERM_VERSION")
+        let xterm_patch= str2nr(matchstr($XTERM_VERSION,
+                                      \ '\v^XTerm\(\zs\d+\ze\)'))
+        if xterm_patch < 282
+            let g:togglecursor_insert = 'underline'
+        endif
+    endif
 endif
 
 if !exists("g:togglecursor_leave")
