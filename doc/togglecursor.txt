@@ -97,6 +97,27 @@ unclear what they're going to do about it.  The bug was reported here:
 https://bugs.kde.org/show_bug.cgi?id=323227.
 
 ==============================================================================
+TIPS                                             *togglecursor-tips*
+
+On most systems, the default SSH settings will not transmit the TERM_PROGRAM
+environment variable to the remote system, which is used by togglecursor to help
+determine how to change the cursor.  If you'd like togglecursor to work for your
+remote session, then you must edit the SSH server configuration as well as your
+client configuration.
+
+The typical unix location for your ssh client configuration is in ~/.ssh/config.
+Simply add the following line to the file: >
+    SendEnv TERM_PROGRAM
+<
+On the server side, the configuration is typically in /etc/ssh/sshd_config.  Add
+TERM_PROGRAM to the list of accepted environment variables.  It should look
+something like this: >
+    AcceptEnv LANG LC_* TERM_PROGRAM
+<
+Now the TERM_PROGRAM environment variable will be passed to the remote session
+and togglecursor will be able to change the cursor correctly.
+
+==============================================================================
 ABOUT                                            *togglecursor-about*
 
 Grab the latest version or report a bug on GitHub:
