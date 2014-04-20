@@ -23,14 +23,12 @@ By default, on most systems, the cursor behavior introduced by this plugin for
 iTerm will not continue if you ssh to another system, because the
 ``$TERM_PROGRAM`` environment variable will not be passed, which is what
 vim-togglecursor uses to check if it is running inside iTerm. However, if you
-modify ssh_config for the client:
+modify ssh_config for the client::
 
-::
   SendEnv TERM_PROGRAM
 
-And /etc/ssh/sshd_config for the server:
+And /etc/ssh/sshd_config for the server::
 
-::
   AcceptEnv LANG LC_* TERM_PROGRAM
 
 ... then the TERM_PROGRAM environment variable will be passed, and
