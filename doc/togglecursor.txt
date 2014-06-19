@@ -17,10 +17,10 @@ supported terminals.
 ==============================================================================
 SUPPORTED TERMINALS                              *togglecursor-supported*
 
-Currently supported terminals are iTerm2 for the Mac and KDE's Konsole.  The
-xterm console is partially supported as well.  Older xterm's didn't support
-the line cursor, so this plugin currently sets the cursor to underline
-instead.
+Currently supported terminals are iTerm2 for the Mac (version 1.0.0.20130602
+beta or better is required) and KDE's Konsole.  The xterm console is partially
+supported as well.  Older xterm's didn't support the line cursor, so this plugin
+currently sets the cursor to underline instead.
 
 The gnome-terminal application doesn't support changing the cursor via escape
 sequences and is not supported.  On unsupported terminals, Vim's default
