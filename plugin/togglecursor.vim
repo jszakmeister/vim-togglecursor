@@ -41,7 +41,7 @@ if !has("gui_running")
                 " \ || $VTE_VERSION != ""
         " iTerm, xterm, and future VTE based terminals support DESCCUSR.
         let s:supported_terminal = 'xterm'
-    elseif $KONSOLE_DBUS_SESSION != ""
+    elseif $TERM_PROGRAM == "Konsole" || exists("$KONSOLE_DBUS_SESSION")
         "cursorshape for konsole
         let s:supported_terminal = 'cursorshape'
     endif
