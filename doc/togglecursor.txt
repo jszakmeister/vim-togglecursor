@@ -117,6 +117,10 @@ something like this: >
 Now the TERM_PROGRAM environment variable will be passed to the remote session
 and togglecursor will be able to change the cursor correctly.
 
+You can configure Konsole to set TERM_PROGRAM by editing the environment in
+'Settings->Edit Current Profile->General' and adding the following line:
+    TERM_PROGRAM=Konsole
+
 ==============================================================================
 ABOUT                                            *togglecursor-about*
 
