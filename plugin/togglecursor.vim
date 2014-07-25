@@ -58,6 +58,8 @@ let s:putty_line = "\<Esc>[=1c"
 let s:putty_block = "\<Esc>[=2c"
 
 let s:in_tmux = exists("$TMUX")
+let s:in_nested_tmux = exists("$TMUX_NESTED")
+let s:in_remote_tmux = exists("$TMUX_REMOTE")
 
 " Detect whether this version of vim supports changing the replace cursor
 " natively.
@@ -100,7 +102,7 @@ if s:supported_terminal == ""
         " box under KDE.
 
         let s:supported_terminal = 'cursorshape'
-    elseif $PUTTY != ""
+    elseif exists("$PUTTY")
         let s:supported_terminal = 'putty'
     endif
 endif
@@ -168,7 +170,15 @@ function! s:GetEscapeCode(shape)
     let l:escape_code = s:{s:supported_terminal}_{a:shape}
 
     if s:in_tmux
-        return s:TmuxEscape(l:escape_code)
+        let l:escape_code = s:TmuxEscape(l:escape_code)
+    endif
+
+    if s:in_nested_tmux
+        let l:escape_code = s:TmuxEscape(l:escape_code)
+    endif
+
+    if s:in_remote_tmux
+        let l:escape_code = s:TmuxEscape(l:escape_code)
     endif
 
     return l:escape_code
