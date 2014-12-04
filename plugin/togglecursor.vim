@@ -67,6 +67,10 @@ if !exists("g:togglecursor_insert")
     endif
 endif
 
+if !exists("g:togglecursor_replace")
+	let g:togglecursor_replace = 'underline'
+endif
+
 if !exists("g:togglecursor_leave")
     let g:togglecursor_leave = g:togglecursor_default
 endif
@@ -107,6 +111,10 @@ function! s:GetEscapeCode(shape)
     return l:escape_code
 endfunction
 
+function! s:ToggleCursorInsertMode(shape)
+	let &t_SI = s:GetEscapeCode(a:shape)
+endfunction
+
 function! s:ToggleCursorInit()
     if !s:SupportedTerminal()
         return
@@ -129,6 +137,12 @@ let &t_ti = s:GetEscapeCode(g:togglecursor_default) . &t_ti
 
 augroup ToggleCursorStartup
     autocmd!
+	autocmd InsertEnter *
+		\ if v:insertmode == 'i' |
+		\	call <SID>ToggleCursorInsertMode(g:togglecursor_insert) |
+		\ elseif v:insertmode == 'r' |
+		\	call <SID>ToggleCursorInsertMode(g:togglecursor_replace) |
+		\ endif
     autocmd VimEnter * call <SID>ToggleCursorInit()
     autocmd VimLeave * call <SID>ToggleCursorLeave()
 augroup END
