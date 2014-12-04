@@ -141,7 +141,7 @@ augroup ToggleCursorStartup
 		\ if v:insertmode == 'i' |
 		\	call <SID>ToggleCursorInsertMode(g:togglecursor_insert) |
 		\ elseif v:insertmode == 'r' |
-		\	call <SID>ToggleCursorInsertMode(g:togglecursor_replace)
+		\	call <SID>ToggleCursorInsertMode(g:togglecursor_replace) |
 		\ endif
     autocmd VimEnter * call <SID>ToggleCursorInit()
     autocmd VimLeave * call <SID>ToggleCursorLeave()
