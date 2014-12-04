@@ -112,7 +112,7 @@ function! s:GetEscapeCode(shape)
 endfunction
 
 function! s:ToggleCursorInsertMode(shape)
-	let &t_EI = s:GetEscapeCode(a:shape)
+	let &t_SI = s:GetEscapeCode(a:shape)
 endfunction
 
 function! s:ToggleCursorInit()
