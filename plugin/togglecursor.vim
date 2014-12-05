@@ -67,6 +67,10 @@ if !exists("g:togglecursor_insert")
     endif
 endif
 
+if !exists("g:togglecursor_replace")
+    let g:togglecursor_replace = 'underline'
+endif
+
 if !exists("g:togglecursor_leave")
     let g:togglecursor_leave = g:togglecursor_default
 endif
@@ -123,6 +127,15 @@ function! s:ToggleCursorLeave()
     let &t_te = s:GetEscapeCode(g:togglecursor_leave) . &t_te
 endfunction
 
+function! s:ToggleCursorByMode()
+    if v:insertmode == 'r' || v:insertmode == 'v'
+        let &t_SI = s:GetEscapeCode(g:togglecursor_replace)
+    else
+        " Default to the insert mode cursor.
+        let &t_SI = s:GetEscapeCode(g:togglecursor_insert)
+    endif
+endfunction
+
 " Having our escape come first seems to work better with tmux and konsole under
 " Linux.
 let &t_ti = s:GetEscapeCode(g:togglecursor_default) . &t_ti
@@ -131,4 +144,5 @@ augroup ToggleCursorStartup
     autocmd!
     autocmd VimEnter * call <SID>ToggleCursorInit()
     autocmd VimLeave * call <SID>ToggleCursorLeave()
+    autocmd InsertEnter * call <SID>ToggleCursorByMode()
 augroup END
