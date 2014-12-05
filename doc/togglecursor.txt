@@ -48,6 +48,10 @@ g:togglecursor_insert   The insert mode cursor shape.  The default value is
 g:togglecursor_leave    The cursor shape to set when exiting Vim.  The default
                         value is to be the same a |togglecursor_default|.
 
+                                                 *togglecursor_replace*
+g:togglecursor_replace  The replace mode cursor shape.  The default value is
+                        'underline'.
+
                                                  *togglecursor_disable_tmux*
 
 In some versions of tmux, the passthrough handling appears to be slightly
