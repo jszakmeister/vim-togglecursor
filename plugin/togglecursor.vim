@@ -56,6 +56,7 @@ let s:xterm_blinking_underline = "\<Esc>[3 q"
 " Putty has limited support
 let s:putty_line = "\<Esc>[=1c"
 let s:putty_block = "\<Esc>[=2c"
+let s:putty_underline = "\<Esc>[=2c"
 
 let s:in_tmux = exists("$TMUX")
 let s:in_nested_tmux = exists("$TMUX_NESTED")
