@@ -38,8 +38,8 @@ let s:supported_terminal = ''
 if !has("gui_running")
     if $TERM_PROGRAM == "iTerm.app" || exists("$ITERM_SESSION_ID")
                 \ || $XTERM_VERSION != ""
-                " \ || $VTE_VERSION != ""
-        " iTerm, xterm, and future VTE based terminals support DESCCUSR.
+                \ || str2nr($VTE_VERSION) >= 3900
+        " iTerm, xterm, and VTE based terminals support DESCCUSR.
         let s:supported_terminal = 'xterm'
     elseif $TERM_PROGRAM == "Konsole" || exists("$KONSOLE_DBUS_SESSION")
         "cursorshape for konsole
