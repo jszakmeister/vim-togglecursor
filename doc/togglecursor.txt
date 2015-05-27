@@ -53,6 +53,13 @@ g:togglecursor_leave    The cursor shape to set when exiting Vim.  The default
 g:togglecursor_replace  The replace mode cursor shape.  The default value is
                         'underline'.
 
+                                                 *togglecursor_force*
+g:togglecursor_force    Force togglecursor to use a particular mechanism to
+                        change the cursor.  Setting this turns off automatic
+                        detection.  The only valid choices are 'xterm' (which
+                        uses the DESCCUSR escape sequence) and 'cursorshape'
+                        (what Konsole and iTerm uses).
+
                                                  *togglecursor_disable_tmux*
 
 In some versions of tmux, the passthrough handling appears to be slightly

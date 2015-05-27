@@ -36,14 +36,25 @@ let s:supported_terminal = ''
 
 " Check for supported terminals.
 if !has("gui_running")
-    if $TERM_PROGRAM == "iTerm.app" || exists("$ITERM_SESSION_ID")
+    if exists("g:togglecursor_force") && g:togglecursor_force != ""
+        if count(["xterm", "cursorshape"], g:togglecursor_force) == 0
+            echoerr "Invalid value for g:togglecursor_force: " .
+                    \ g:togglecursor_force
+        else
+            let s:supported_terminal = g:togglecursor_force
+        endif
+    endif
+
+    if s:supported_terminal == ""
+        if $TERM_PROGRAM == "iTerm.app" || exists("$ITERM_SESSION_ID")
                 \ || $XTERM_VERSION != ""
                 \ || str2nr($VTE_VERSION) >= 3900
-        " iTerm, xterm, and VTE based terminals support DESCCUSR.
-        let s:supported_terminal = 'xterm'
-    elseif $TERM_PROGRAM == "Konsole" || exists("$KONSOLE_DBUS_SESSION")
-        "cursorshape for konsole
-        let s:supported_terminal = 'cursorshape'
+            " iTerm, xterm, and VTE based terminals support DESCCUSR.
+            let s:supported_terminal = 'xterm'
+        elseif $TERM_PROGRAM == "Konsole" || exists("$KONSOLE_DBUS_SESSION")
+            "cursorshape for konsole
+            let s:supported_terminal = 'cursorshape'
+        endif
     endif
 endif
 
