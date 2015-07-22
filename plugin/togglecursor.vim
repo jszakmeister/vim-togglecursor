@@ -149,7 +149,9 @@ endfunction
 
 " Having our escape come first seems to work better with tmux and konsole under
 " Linux.
-let &t_ti = s:GetEscapeCode(g:togglecursor_default) . &t_ti
+if s:supported_terminal == 'cursorshape'
+    let &t_ti = s:GetEscapeCode(g:togglecursor_default) . &t_ti
+endif
 
 augroup ToggleCursorStartup
     autocmd!
