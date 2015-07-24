@@ -52,7 +52,10 @@ if !has("gui_running")
             " iTerm, xterm, and VTE based terminals support DESCCUSR.
             let s:supported_terminal = 'xterm'
         elseif $TERM_PROGRAM == "Konsole" || exists("$KONSOLE_DBUS_SESSION")
-            "cursorshape for konsole
+            " This detection is not perfect.  KONSOLE_DBUS_SESSION seems to show
+            " up in the environment despite running under tmux in an ssh
+            " session if you have also started a tmux session locally on target
+            " box under KDE.
             let s:supported_terminal = 'cursorshape'
         endif
     endif
