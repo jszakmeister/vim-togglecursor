@@ -33,6 +33,7 @@ let s:xterm_blinking_underline = "\<Esc>[3 q"
 let s:in_tmux = exists("$TMUX")
 
 let s:supported_terminal = ''
+let s:prefix_ti = 0
 
 " Check for supported terminals.
 if !has("gui_running")
@@ -56,6 +57,11 @@ if !has("gui_running")
             " up in the environment despite running under tmux in an ssh
             " session if you have also started a tmux session locally on target
             " box under KDE.
+
+            " Prefix t_ti when we're under Konsole.  Having our escape come
+            " first seems to work better with tmux and konsole under Linux.
+            let s:prefix_ti = 1
+
             let s:supported_terminal = 'cursorshape'
         endif
     endif
@@ -150,9 +156,9 @@ function! s:ToggleCursorByMode()
     endif
 endfunction
 
-" Having our escape come first seems to work better with tmux and konsole under
-" Linux.
-let &t_ti = s:GetEscapeCode(g:togglecursor_default) . &t_ti
+if s:prefix_ti
+    let &t_ti = s:GetEscapeCode(g:togglecursor_default) . &t_ti
+endif
 
 augroup ToggleCursorStartup
     autocmd!
