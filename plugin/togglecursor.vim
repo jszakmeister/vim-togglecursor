@@ -9,6 +9,12 @@
 if exists('g:loaded_togglecursor') || &cp || !has("cursorshape")
   finish
 endif
+
+" Bail out early if not running under a terminal.
+if has("gui_running")
+    finish
+endif
+
 let g:loaded_togglecursor = 1
 
 let s:cursorshape_underline = "\<Esc>]50;CursorShape=2;BlinkingCursorEnabled=0\x7"
@@ -36,34 +42,32 @@ let s:supported_terminal = ''
 let s:prefix_ti = 0
 
 " Check for supported terminals.
-if !has("gui_running")
-    if exists("g:togglecursor_force") && g:togglecursor_force != ""
-        if count(["xterm", "cursorshape"], g:togglecursor_force) == 0
-            echoerr "Invalid value for g:togglecursor_force: " .
-                    \ g:togglecursor_force
-        else
-            let s:supported_terminal = g:togglecursor_force
-        endif
+if exists("g:togglecursor_force") && g:togglecursor_force != ""
+    if count(["xterm", "cursorshape"], g:togglecursor_force) == 0
+        echoerr "Invalid value for g:togglecursor_force: " .
+                \ g:togglecursor_force
+    else
+        let s:supported_terminal = g:togglecursor_force
     endif
+endif
 
-    if s:supported_terminal == ""
-        if $TERM_PROGRAM == "iTerm.app" || exists("$ITERM_SESSION_ID")
-                \ || $XTERM_VERSION != ""
-                \ || str2nr($VTE_VERSION) >= 3900
-            " iTerm, xterm, and VTE based terminals support DESCCUSR.
-            let s:supported_terminal = 'xterm'
-        elseif $TERM_PROGRAM == "Konsole" || exists("$KONSOLE_DBUS_SESSION")
-            " This detection is not perfect.  KONSOLE_DBUS_SESSION seems to show
-            " up in the environment despite running under tmux in an ssh
-            " session if you have also started a tmux session locally on target
-            " box under KDE.
+if s:supported_terminal == ""
+    if $TERM_PROGRAM == "iTerm.app" || exists("$ITERM_SESSION_ID")
+            \ || $XTERM_VERSION != ""
+            \ || str2nr($VTE_VERSION) >= 3900
+        " iTerm, xterm, and VTE based terminals support DESCCUSR.
+        let s:supported_terminal = 'xterm'
+    elseif $TERM_PROGRAM == "Konsole" || exists("$KONSOLE_DBUS_SESSION")
+        " This detection is not perfect.  KONSOLE_DBUS_SESSION seems to show
+        " up in the environment despite running under tmux in an ssh
+        " session if you have also started a tmux session locally on target
+        " box under KDE.
 
-            " Prefix t_ti when we're under Konsole.  Having our escape come
-            " first seems to work better with tmux and konsole under Linux.
-            let s:prefix_ti = 1
+        " Prefix t_ti when we're under Konsole.  Having our escape come
+        " first seems to work better with tmux and konsole under Linux.
+        let s:prefix_ti = 1
 
-            let s:supported_terminal = 'cursorshape'
-        endif
+        let s:supported_terminal = 'cursorshape'
     endif
 endif
 
