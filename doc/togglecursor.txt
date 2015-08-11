@@ -76,6 +76,20 @@ The default value for |togglecursor_disable_tmux| is 0.
 Note: options should be overridden in your vimrc.  Changing them after Vim has
 loaded will have little or no effect.
 
+                                                 *togglecursor_disable_neovim*
+By default, togglecursor will detect the presence of Neovim and turn on
+NVIM_TUI_ENABLE_CURSOR_SHAPE environment variable for you.  If you don't want
+this behavior, you can add the following to your vimrc: >
+
+    let g:togglecursor_disable_neovim = 1
+<
+Note: if you've already defined NVIM_TUI_ENABLE_CURSOR_SHAPE to a non-empty
+value, then togglecursor will leave it alone.  Also, Neovim's environment
+variable detection can't tell the difference between an unset variable and
+an empty variable.  So togglecursor may enable cursor support even though you've
+attempted to opt-out of it.  Setting g:togglecursor_disable_neovim will keep
+togglecursor from attempting to set the NVIM_TUI_ENABLE_CURSOR_SHAPE variable.
+
 ==============================================================================
 LIMITATIONS                                      *togglecursor-limitations*
 
@@ -107,6 +121,16 @@ result, if you make other changes you'll want to select your normal profile
 name and save them there.  The bug has been reported to Konsole, but it's
 unclear what they're going to do about it.  The bug was reported here:
 https://bugs.kde.org/show_bug.cgi?id=323227.
+
+Note: Neovim doesn't allow the technique used by togglecursor to work.  Neovim
+does natively have the ability to change cursor shape by the
+NVIM_TUI_ENABLE_CURSOR_SHAPE environment variable--though you cannot control
+the shapes.  The plugin will set this environment variable for you, but will not
+offer any control over the actual shapes.  In fact, it will look like the plugin
+hasn't loaded--the environment variable is set, and then the plugin exits.
+
+If you find that the Neovim's sequences are not working for your terminal, you
+can disable this feature using |togglecursor_disable_neovim|.
 
 ==============================================================================
 TIPS                                             *togglecursor-tips*

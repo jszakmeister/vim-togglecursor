@@ -15,6 +15,19 @@ if has("gui_running")
     finish
 endif
 
+if !exists("g:togglecursor_disable_neovim")
+    let g:togglecursor_disable_neovim = 0
+endif
+
+if has("nvim")
+    " If Neovim support is enabled, then let set the
+    " NVIM_TUI_ENABLE_CURSOR_SHAPE for the user.
+    if $NVIM_TUI_ENABLE_CURSOR_SHAPE == "" && g:togglecursor_disable_neovim == 0
+        let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
+    endif
+    finish
+endif
+
 let g:loaded_togglecursor = 1
 
 let s:cursorshape_underline = "\<Esc>]50;CursorShape=2;BlinkingCursorEnabled=0\x7"
