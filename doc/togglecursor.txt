@@ -133,6 +133,10 @@ You can configure Konsole to set TERM_PROGRAM by editing the environment in
 'Settings->Edit Current Profile->General' and adding the following line:
     TERM_PROGRAM=Konsole
 
+The current build of Neovim blocks by default the ability to change the cursor
+shape. Set the environment variable NVIM_TUI_ENABLE_CURSOR_SHAPE to 1 in order
+to allow it.
+
 ==============================================================================
 ABOUT                                            *togglecursor-about*
 
