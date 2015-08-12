@@ -7,7 +7,7 @@
 " ============================================================================
 
 if exists('g:loaded_togglecursor') || &cp || !has("cursorshape")
-  finish
+    finish
 endif
 
 " Bail out early if not running under a terminal.
@@ -52,13 +52,13 @@ let s:xterm_blinking_underline = "\<Esc>[3 q"
 let s:in_tmux = exists("$TMUX")
 
 let s:supported_terminal = ''
-let s:prefix_ti = 0
+let s:prefix_ti = 1
 
 " Check for supported terminals.
 if exists("g:togglecursor_force") && g:togglecursor_force != ""
     if count(["xterm", "cursorshape"], g:togglecursor_force) == 0
         echoerr "Invalid value for g:togglecursor_force: " .
-                \ g:togglecursor_force
+                    \ g:togglecursor_force
     else
         let s:supported_terminal = g:togglecursor_force
     endif
@@ -66,22 +66,23 @@ endif
 
 if s:supported_terminal == ""
     if $TERM_PROGRAM == "iTerm.app" || exists("$ITERM_SESSION_ID")
-            \ || $XTERM_VERSION != ""
-            \ || str2nr($VTE_VERSION) >= 3900
+                \ || $XTERM_VERSION != ""
+                \ || str2nr($VTE_VERSION) >= 3900
         " iTerm, xterm, and VTE based terminals support DESCCUSR.
         let s:supported_terminal = 'xterm'
+
     elseif $TERM_PROGRAM == "Konsole" || exists("$KONSOLE_DBUS_SESSION")
         " This detection is not perfect.  KONSOLE_DBUS_SESSION seems to show
         " up in the environment despite running under tmux in an ssh
         " session if you have also started a tmux session locally on target
         " box under KDE.
 
-        " Prefix t_ti when we're under Konsole.  Having our escape come
-        " first seems to work better with tmux and konsole under Linux.
-        let s:prefix_ti = 1
-
         let s:supported_terminal = 'cursorshape'
     endif
+endif
+
+if s:supported_terminal == 'xterm' && str2nr($VTE_VERSION) >= 4002
+    let s:prefix_ti = 0
 endif
 
 
