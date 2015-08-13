@@ -168,8 +168,9 @@ function! s:ToggleCursorByMode()
     endif
 endfunction
 
-" Having our escape come first seems to work better with tmux and konsole under
-" Linux.
+" Setting t_ti allows us to get the cursor correct for normal mode when we first
+" enter Vim.  Having our escape come first seems to work better with tmux and
+" Konsole under Linux.
 let &t_ti = s:GetEscapeCode(g:togglecursor_default) . &t_ti
 
 augroup ToggleCursorStartup
