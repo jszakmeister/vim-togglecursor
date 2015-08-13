@@ -2,7 +2,7 @@
 " File:         togglecursor.vim
 " Description:  Toggles cursor shape in the terminal
 " Maintainer:   John Szakmeister <john@szakmeister.net>
-" Version:      0.4.1-dev
+" Version:      0.4.1
 " License:      Same license as Vim.
 " ============================================================================
 
