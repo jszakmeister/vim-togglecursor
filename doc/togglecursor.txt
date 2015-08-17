@@ -90,6 +90,21 @@ an empty variable.  So togglecursor may enable cursor support even though you've
 attempted to opt-out of it.  Setting g:togglecursor_disable_neovim will keep
 togglecursor from attempting to set the NVIM_TUI_ENABLE_CURSOR_SHAPE variable.
 
+                                             *togglecursor_disable_default_init*
+To support changing the normal mode cursor, togglecursor modifies 't_ti' to
+include an escape sequence to modify the cursor.  It has been seen on VTE
+0.40.2-based terminals that this can cause the cursor to disappear.
+
+To allow users to workaround this kind of bug, you can set
+g:togglecursor_disable_default_init to a non-zero value in your vimrc: >
+
+    let g:togglecursor_disable_default_init = 1
+<
+This will prevent togglecursor from altering 't_ti' at the cost of not having
+the correct cursor when first entering Vim.  Once you go into insert mode and
+back to normal mode, you'll find that the cursor has changed to the desired
+type.
+
 ==============================================================================
 LIMITATIONS                                      *togglecursor-limitations*
 
@@ -131,6 +146,10 @@ hasn't loaded--the environment variable is set, and then the plugin exits.
 
 If you find that the Neovim's sequences are not working for your terminal, you
 can disable this feature using |togglecursor_disable_neovim|.
+
+There has been a report of the cursor going missing on start-up with VTE
+0.40.2-based terminals.  If you're seeing this issue, take a look at
+|togglecursor_disable_default_init|.
 
 ==============================================================================
 TIPS                                             *togglecursor-tips*

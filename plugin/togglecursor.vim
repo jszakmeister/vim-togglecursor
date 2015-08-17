@@ -19,6 +19,10 @@ if !exists("g:togglecursor_disable_neovim")
     let g:togglecursor_disable_neovim = 0
 endif
 
+if !exists("g:togglecursor_disable_default_init")
+    let g:togglecursor_disable_default_init = 0
+endif
+
 if has("nvim")
     " If Neovim support is enabled, then let set the
     " NVIM_TUI_ENABLE_CURSOR_SHAPE for the user.
@@ -170,8 +174,12 @@ endfunction
 
 " Setting t_ti allows us to get the cursor correct for normal mode when we first
 " enter Vim.  Having our escape come first seems to work better with tmux and
-" Konsole under Linux.
-let &t_ti = s:GetEscapeCode(g:togglecursor_default) . &t_ti
+" Konsole under Linux.  Allow users to turn this off, since some users of VTE
+" 0.40.2-based terminals seem to have issues with the cursor disappearing in the
+" certain environments.
+if g:togglecursor_disable_default_init == 0
+    let &t_ti = s:GetEscapeCode(g:togglecursor_default) . &t_ti
+endif
 
 augroup ToggleCursorStartup
     autocmd!
