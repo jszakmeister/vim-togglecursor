@@ -162,11 +162,13 @@ client configuration.
 
 The typical unix location for your ssh client configuration is in ~/.ssh/config.
 Simply add the following line to the file: >
+
     SendEnv TERM_PROGRAM
 <
 On the server side, the configuration is typically in /etc/ssh/sshd_config.  Add
 TERM_PROGRAM to the list of accepted environment variables.  It should look
 something like this: >
+
     AcceptEnv LANG LC_* TERM_PROGRAM
 <
 Now the TERM_PROGRAM environment variable will be passed to the remote session
@@ -174,8 +176,27 @@ and togglecursor will be able to change the cursor correctly.
 
 You can configure Konsole to set TERM_PROGRAM by editing the environment in
 'Settings->Edit Current Profile->General' and adding the following line: >
+
     TERM_PROGRAM=Konsole
 <
+==============================================================================
+SUDO                                            *togglecursor-sudo*
+
+The sudo tool scrubs the environment by default, preventing most environment
+variables from being forwarded into the new sudo environment, which prevents
+togglecursor from being able to detect the running terminal.  To allow
+auto-detection, you need to tell sudo to keep these environment
+variables.  This is done by using visudo to modify /etc/sudoers and add
+something like the following to file: >
+
+    Defaults env_keep += "TERM_PROGRAM VTE_VERSION XTERM_VERSION"
+<
+The exact variables to add depend on what you use.  For instance, if you use
+Konsole, you may need to add KONSOLE_DBUS_SESSION to the list.
+
+Another alternative is to set |togglecursor_force| to the correct value for the
+terminal you use and skip autodetection.
+
 ==============================================================================
 ABOUT                                            *togglecursor-about*
 
