@@ -67,11 +67,17 @@ if exists("g:togglecursor_force") && g:togglecursor_force != ""
     endif
 endif
 
+function! s:GetXtermVersion(version)
+    return str2nr(matchstr(a:version, '\v^XTerm\(\zs\d+\ze\)'))
+endfunction
+
 if s:supported_terminal == ""
+    " iTerm, xterm, and VTE based terminals support DESCCUSR.
     if $TERM_PROGRAM == "iTerm.app" || exists("$ITERM_SESSION_ID")
-            \ || $XTERM_VERSION != ""
-            \ || str2nr($VTE_VERSION) >= 3900
-        " iTerm, xterm, and VTE based terminals support DESCCUSR.
+        let s:supported_terminal = 'xterm'
+    elseif str2nr($VTE_VERSION) >= 3900
+        let s:supported_terminal = 'xterm'
+    elseif s:GetXtermVersion($XTERM_VERSION) >= 252
         let s:supported_terminal = 'xterm'
     elseif $TERM_PROGRAM == "Konsole" || exists("$KONSOLE_DBUS_SESSION")
         " This detection is not perfect.  KONSOLE_DBUS_SESSION seems to show
@@ -100,9 +106,7 @@ endif
 if !exists("g:togglecursor_insert")
     let g:togglecursor_insert = 'line'
     if exists("$XTERM_VERSION")
-        let xterm_patch = str2nr(matchstr($XTERM_VERSION,
-                    \ '\v^XTerm\(\zs\d+\ze\)'))
-        if xterm_patch < 282
+        if s:GetXtermVersion($XTERM_VERSION) < 282
             let g:togglecursor_insert = 'underline'
         endif
     endif
