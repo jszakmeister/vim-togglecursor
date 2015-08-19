@@ -83,6 +83,11 @@ if s:supported_terminal == ""
     endif
 endif
 
+if s:supported_terminal == ''
+    " The terminal is not supported, so bail.
+    finish
+endif
+
 
 " -------------------------------------------------------------
 " Options
