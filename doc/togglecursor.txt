@@ -39,15 +39,21 @@ allowed to be one of 'block', 'blinking_block', 'line', 'blinking_line',
 
                                                  *togglecursor_default*
 g:togglecursor_default  The default cursor shape.  It is used in all modes
-                        except insert mode.  The default value is 'block'.
+                        except insert mode.  The default value is
+                        'blinking_block', where it's known to be supported,
+                        and 'block' otherwise.
 
                                                  *togglecursor_insert*
 g:togglecursor_insert   The insert mode cursor shape.  The default value is
-                        'line'.
+                        'blinking_line' where supported, 'line' if the vertical
+                        line cursor is supported, or 'blinking_underline' if
+                        neither is supported.
 
                                                  *togglecursor_leave*
 g:togglecursor_leave    The cursor shape to set when exiting Vim.  The default
-                        value is to be the same a |togglecursor_default|.
+                        value is 'block', except on VTE-based terminals which
+                        commonly have blinking cursor and defaults to
+                        'blinking_block'.
 
                                                  *togglecursor_replace*
 g:togglecursor_replace  The replace mode cursor shape.  The default value is

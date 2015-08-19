@@ -100,24 +100,28 @@ endif
 " -------------------------------------------------------------
 
 if !exists("g:togglecursor_default")
-    let g:togglecursor_default = 'block'
+    let g:togglecursor_default = 'blinking_block'
 endif
 
 if !exists("g:togglecursor_insert")
-    let g:togglecursor_insert = 'line'
+    let g:togglecursor_insert = 'blinking_line'
     if exists("$XTERM_VERSION")
         if s:GetXtermVersion($XTERM_VERSION) < 282
-            let g:togglecursor_insert = 'underline'
+            let g:togglecursor_insert = 'blinking_underline'
         endif
     endif
 endif
 
 if !exists("g:togglecursor_replace")
-    let g:togglecursor_replace = 'underline'
+    let g:togglecursor_replace = 'blinking_underline'
 endif
 
 if !exists("g:togglecursor_leave")
-    let g:togglecursor_leave = g:togglecursor_default
+    if str2nr($VTE_VERSION) >= 3900
+        let g:togglecursor_leave = 'blinking_block'
+    else
+        let g:togglecursor_leave = 'block'
+    endif
 endif
 
 if !exists("g:togglecursor_disable_tmux")
