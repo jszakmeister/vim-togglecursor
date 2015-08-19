@@ -19,9 +19,9 @@ SUPPORTED TERMINALS                              *togglecursor-supported*
 
 Currently supported terminals are iTerm2 for the Mac (version 1.0.0.20130602
 beta or better is required), VTE3 based terminals (including gnome-terminal),
-and KDE's Konsole. The xterm console is partially supported as well. Older 
-xterm's didn't support the line cursor, so this plugin currently sets the 
-cursor to underline instead.
+and KDE's Konsole.  XTerm 252 or better is supported as well.  XTerms younger
+than 282 don't support the line cursor, so this plugin currently sets the cursor
+to an underline instead for insert mode.
 
 Older versions of VTE3 based terminals (before v0.39) do not support changing 
 the cursor via escape sequences and are not supported.  On unsupported 
@@ -58,7 +58,7 @@ g:togglecursor_force    Force togglecursor to use a particular mechanism to
                         change the cursor.  Setting this turns off automatic
                         detection.  The only valid choices are 'xterm' (which
                         uses the DESCCUSR escape sequence) and 'cursorshape'
-                        (what Konsole and iTerm uses).
+                        (what Konsole uses).
 
                                                  *togglecursor_disable_tmux*
 
@@ -112,9 +112,9 @@ Since this plugin relies on detecting on the type of terminal being run, it
 will not work automatically when working remotely.  The required environment
 variables are simply not available.
 
-This also doesn't support all terminals.  Currently, only iTerm2 for the Mac,
-and Konsole under Linux are supported.  Others may be added later, as long as
-there is a safe way to detect and add that support.
+This also doesn't support all terminals, see |togglecursor-supported| for
+details.  Others may be added later, as long as there is a safe way to detect
+and add that support.
 
 Also, this plugin works by setting the |t_SI|, |t_EI|, |t_ti|, and |t_te|
 options and including special escape codes to let the terminal know how to
@@ -149,7 +149,7 @@ can disable this feature using |togglecursor_disable_neovim|.
 
 There has been a report of the cursor going missing on start-up with VTE
 0.40.2-based terminals.  If you're seeing this issue, take a look at
-|togglecursor_disable_default_init|.
+|togglecursor_disable_default_init|.  Note: the issue was fixed in VTE 0.41.90.
 
 ==============================================================================
 TIPS                                             *togglecursor-tips*
