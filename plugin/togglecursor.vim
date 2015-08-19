@@ -105,10 +105,8 @@ endif
 
 if !exists("g:togglecursor_insert")
     let g:togglecursor_insert = 'blinking_line'
-    if exists("$XTERM_VERSION")
-        if s:GetXtermVersion($XTERM_VERSION) < 282
-            let g:togglecursor_insert = 'blinking_underline'
-        endif
+    if $XTERM_VERSION != "" && s:GetXtermVersion($XTERM_VERSION) < 282
+        let g:togglecursor_insert = 'blinking_underline'
     endif
 endif
 
