@@ -72,7 +72,7 @@ function! s:GetXtermVersion(version)
 endfunction
 
 if s:supported_terminal == ""
-    " iTerm, xterm, and VTE based terminals support DESCCUSR.
+    " iTerm, xterm, and VTE based terminals support DECSCUSR.
     if $TERM_PROGRAM == "iTerm.app" || exists("$ITERM_SESSION_ID")
         let s:supported_terminal = 'xterm'
     elseif str2nr($VTE_VERSION) >= 3900
