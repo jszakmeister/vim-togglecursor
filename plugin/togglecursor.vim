@@ -75,6 +75,8 @@ if s:supported_terminal == ""
     " iTerm, xterm, and VTE based terminals support DECSCUSR.
     if $TERM_PROGRAM == "iTerm.app" || exists("$ITERM_SESSION_ID")
         let s:supported_terminal = 'xterm'
+    elseif $TERM == "rxvt-unicode" || $TERM == "rxvt-unicode-256color"
+        let s:supported_terminal = 'xterm'
     elseif str2nr($VTE_VERSION) >= 3900
         let s:supported_terminal = 'xterm'
     elseif s:GetXtermVersion($XTERM_VERSION) >= 252
