@@ -68,7 +68,7 @@ if exists("g:togglecursor_force") && g:togglecursor_force != ""
 endif
 
 function! s:GetXtermVersion(version)
-    return str2nr(matchstr(a:version, '\v^XTerm\(\zs\d+\ze\)'))
+    return str2nr(matchstr(a:version, '\v^(XTerm|X.Org .*)\(\zs\d+\ze\)'))
 endfunction
 
 if s:supported_terminal == ""
