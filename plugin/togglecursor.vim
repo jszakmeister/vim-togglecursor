@@ -2,7 +2,7 @@
 " File:         togglecursor.vim
 " Description:  Toggles cursor shape in the terminal
 " Maintainer:   John Szakmeister <john@szakmeister.net>
-" Version:      0.5.0
+" Version:      0.5.1
 " License:      Same license as Vim.
 " ============================================================================
 
@@ -74,6 +74,8 @@ endfunction
 if s:supported_terminal == ""
     " iTerm, xterm, and VTE based terminals support DECSCUSR.
     if $TERM_PROGRAM == "iTerm.app" || exists("$ITERM_SESSION_ID")
+        let s:supported_terminal = 'xterm'
+    elseif $TERM_PROGRAM == "Apple_Terminal" && str2nr($TERM_PROGRAM_VERSION) >= 388
         let s:supported_terminal = 'xterm'
     elseif $TERM == "rxvt-unicode" || $TERM == "rxvt-unicode-256color"
         let s:supported_terminal = 'xterm'
