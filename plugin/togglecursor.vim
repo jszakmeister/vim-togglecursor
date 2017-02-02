@@ -169,6 +169,9 @@ function! s:ToggleCursorInit()
 
     let &t_EI = s:GetEscapeCode(g:togglecursor_default)
     let &t_SI = s:GetEscapeCode(g:togglecursor_insert)
+    if (v:version == 704 && has('patch687')) || v:version > 704
+        let &t_SR = s:GetEscapeCode(g:togglecursor_replace)
+    endif
 endfunction
 
 function! s:ToggleCursorLeave()
