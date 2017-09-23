@@ -55,6 +55,8 @@ let s:xterm_blinking_underline = "\<Esc>[3 q"
 
 let s:in_tmux = exists("$TMUX")
 
+let s:t_SR_supported = (v:version == 704 && has('patch687')) || v:version > 704
+
 let s:supported_terminal = ''
 
 " Check for supported terminals.
@@ -169,7 +171,7 @@ function! s:ToggleCursorInit()
 
     let &t_EI = s:GetEscapeCode(g:togglecursor_default)
     let &t_SI = s:GetEscapeCode(g:togglecursor_insert)
-    if (v:version == 704 && has('patch687')) || v:version > 704
+    if s:t_SR_supported
         let &t_SR = s:GetEscapeCode(g:togglecursor_replace)
     endif
 endfunction
@@ -203,5 +205,7 @@ augroup ToggleCursorStartup
     autocmd!
     autocmd VimEnter * call <SID>ToggleCursorInit()
     autocmd VimLeave * call <SID>ToggleCursorLeave()
-    autocmd InsertEnter * call <SID>ToggleCursorByMode()
+    if !s:t_SR_supported
+        autocmd InsertEnter * call <SID>ToggleCursorByMode()
+    endif
 augroup END
