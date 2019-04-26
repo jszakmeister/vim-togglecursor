@@ -34,6 +34,10 @@ endif
 
 let g:loaded_togglecursor = 1
 
+let s:cursorcolor_blue = "\<Esc>]12;rgb:61/af/ef\x7"
+let s:cursorcolor_red = "\<Esc>]12;rgb:e0/6c/75\x7"
+let s:cursorcolor_green = "\<Esc>]12;rgb:98/c3/79\x7"
+
 let s:cursorshape_underline = "\<Esc>]50;CursorShape=2;BlinkingCursorEnabled=0\x7"
 let s:cursorshape_line = "\<Esc>]50;CursorShape=1;BlinkingCursorEnabled=0\x7"
 let s:cursorshape_block = "\<Esc>]50;CursorShape=0;BlinkingCursorEnabled=0\x7"
