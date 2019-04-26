@@ -113,6 +113,53 @@ the correct cursor when first entering Vim.  Once you go into insert mode and
 back to normal mode, you'll find that the cursor has changed to the desired
 type.
 
+------------------------------------------------------------------------------
+COLORS                                           *togglecursor-colors*
+
+The cursor can optionally be configured to change color depending on the mode.
+If no color is specified for a given mode, there will be no color change upon
+entering that mode.
+
+                                                 *togglecursor#insert_color*
+g:togglecursor#insert_color
+
+Type: |List| [|Number|, |Number|, |Number|]
+
+The red, green, and blue colors to set the cursor when entering insert mode.
+Each color value ranges from 0 to 255, with 0 specifying no intensity, and 255
+specifying maximum intensity. For example: >
+
+    let g:togglecursor#insert_color = [0, 0, 255]
+<
+would set the cursor to blue upon entering insert mode.
+
+
+                                                 *togglecursor#replace_color*
+g:togglecursor#replace_color
+
+Type: |List| [|Number|, |Number|, |Number|]
+
+The red, green, and blue colors to set the cursor when entering replace mode.
+Each color value ranges from 0 to 255, with 0 specifying no intensity, and 255
+specifying maximum intensity. For example: >
+
+    let g:togglecursor#replace_color = [255, 0, 255]
+<
+would set the cursor to magenta upon entering replace mode.
+
+                                                 *togglecursor#default_color*
+g:togglecursor#default_color
+
+Type: |List| [|Number|, |Number|, |Number|]
+
+The red, green, and blue colors to set the cursor when entering normal or
+visual mode. Each color value ranges from 0 to 255, with 0 specifying no
+intensity, and 255 specifying maximum intensity. For example: >
+
+    let g:togglecursor#replace_color = [150, 150, 150]
+<
+would set the cursor to a medium grey upon entering normal or visual mode.
+
 ==============================================================================
 LIMITATIONS                                      *togglecursor-limitations*
 
