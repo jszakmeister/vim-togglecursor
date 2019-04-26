@@ -211,10 +211,10 @@ function! s:ToggleCursorInit()
         return
     endif
 
-    let &t_EI = s:GetEscapeCode(g:togglecursor_default, g:cursorcolor_default)
-    let &t_SI = s:GetEscapeCode(g:togglecursor_insert, g:cursorcolor_insert)
+    let &t_EI = s:GetEscapeCode(g:togglecursor_default, s:cursorcolor_default)
+    let &t_SI = s:GetEscapeCode(g:togglecursor_insert, s:cursorcolor_insert)
     if s:sr_supported
-        let &t_SR = s:GetEscapeCode(g:togglecursor_replace, g:cursorcolor_replace)
+        let &t_SR = s:GetEscapeCode(g:togglecursor_replace, s:cursorcolor_replace)
     endif
 endfunction
 
@@ -222,23 +222,23 @@ function! s:ToggleCursorLeave()
     " One of the last codes emitted to the terminal before exiting is the "out
     " of termcap" sequence.  Tack our escape sequence to change the cursor type
     " onto the beginning of the sequence.
-    let &t_te = s:GetEscapeCode(g:togglecursor_leave, g:cursorcolor_leave) . &t_te
+    let &t_te = s:GetEscapeCode(g:togglecursor_leave, s:cursorcolor_leave) . &t_te
 endfunction
 
 function! s:ToggleCursorByMode()
     if v:insertmode == 'r' || v:insertmode == 'v'
-        let &t_SI = s:GetEscapeCode(g:togglecursor_replace)
+        let &t_SI = s:GetEscapeCode(g:togglecursor_replace, s:cursorcolor_replace)
     else
         " Default to the insert mode cursor.
-        let &t_SI = s:GetEscapeCode(g:togglecursor_insert)
+        let &t_SI = s:GetEscapeCode(g:togglecursor_insert, s:cursorcolor_insert)
     endif
 endfunction
 
 function! s:ToggleCursorRefresh()
     if mode() == 'n'
-        call writefile([s:GetEscapeCode(g:togglecursor_default)], '/dev/tty', 'b')
+        call writefile([s:GetEscapeCode(g:togglecursor_default, s:cursorcolor_default)], '/dev/tty', 'b')
     elseif mode() == 'i'
-        call writefile([s:GetEscapeCode(g:togglecursor_insert)], '/dev/tty', 'b')
+        call writefile([s:GetEscapeCode(g:togglecursor_insert, s:cursorcolor_default)], '/dev/tty', 'b')
     endif
 endfunction
 
@@ -248,7 +248,7 @@ endfunction
 " 0.40.2-based terminals seem to have issues with the cursor disappearing in the
 " certain environments.
 if g:togglecursor_disable_default_init == 0
-    let &t_ti = s:GetEscapeCode(g:togglecursor_default) . &t_ti
+    let &t_ti = s:GetEscapeCode(g:togglecursor_default, s:cursorcolor_leave) . &t_ti
 endif
 
 augroup ToggleCursorStartup
