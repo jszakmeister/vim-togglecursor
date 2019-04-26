@@ -34,9 +34,21 @@ endif
 
 let g:loaded_togglecursor = 1
 
+" @param[in] Number decimal   number to convert to hexidecimal
+" @return String hexidecimal number
+function! s:DecimalToHex(decimal)
+    return printf('%x', a:decimal)
+endfunction
+
 let s:cursorcolor_blue = "\<Esc>]12;rgb:61/af/ef\x7"
 let s:cursorcolor_red = "\<Esc>]12;rgb:e0/6c/75\x7"
 let s:cursorcolor_green = "\<Esc>]12;rgb:98/c3/79\x7"
+let s:cursorcolor_white = "\<Esc>]12;rgb:98/c3/79\x7"
+let s:cursorcolor_insert = s:cursorcolor_blue
+let s:cursorcolor_replace = s:cursorcolor_red
+let s:cursorcolor_default = s:cursorcolor_green
+" let s:cursorcolor_leave = "\<Esc>]112;"
+let s:cursorcolor_leave = ""
 
 let s:cursorshape_underline = "\<Esc>]50;CursorShape=2;BlinkingCursorEnabled=0\x7"
 let s:cursorshape_line = "\<Esc>]50;CursorShape=1;BlinkingCursorEnabled=0\x7"
@@ -172,12 +184,12 @@ function! s:SupportedTerminal()
     return 1
 endfunction
 
-function! s:GetEscapeCode(shape)
+function! s:GetEscapeCode(shape, color)
     if !s:SupportedTerminal()
         return ''
     endif
 
-    let l:escape_code = s:{s:supported_terminal}_{a:shape}
+    let l:escape_code = s:{s:supported_terminal}_{a:shape} . a:color
 
     if s:in_tmux
         let l:escape_code = s:TmuxEscape(l:escape_code)
@@ -199,10 +211,10 @@ function! s:ToggleCursorInit()
         return
     endif
 
-    let &t_EI = s:GetEscapeCode(g:togglecursor_default)
-    let &t_SI = s:GetEscapeCode(g:togglecursor_insert)
+    let &t_EI = s:GetEscapeCode(g:togglecursor_default, g:cursorcolor_default)
+    let &t_SI = s:GetEscapeCode(g:togglecursor_insert, g:cursorcolor_insert)
     if s:sr_supported
-        let &t_SR = s:GetEscapeCode(g:togglecursor_replace)
+        let &t_SR = s:GetEscapeCode(g:togglecursor_replace, g:cursorcolor_replace)
     endif
 endfunction
 
@@ -210,7 +222,7 @@ function! s:ToggleCursorLeave()
     " One of the last codes emitted to the terminal before exiting is the "out
     " of termcap" sequence.  Tack our escape sequence to change the cursor type
     " onto the beginning of the sequence.
-    let &t_te = s:GetEscapeCode(g:togglecursor_leave) . &t_te
+    let &t_te = s:GetEscapeCode(g:togglecursor_leave, g:cursorcolor_leave) . &t_te
 endfunction
 
 function! s:ToggleCursorByMode()
