@@ -34,21 +34,25 @@ endif
 
 let g:loaded_togglecursor = 1
 
-" @param[in] Number decimal   number to convert to hexidecimal
-" @return String hexidecimal number
-function! s:DecimalToHex(decimal)
-    return printf('%x', a:decimal)
+" Get the escape code for changing the cursor color
+"
+" @param[in] List<Number>   rgb values of a specified color
+" @return String escape code to alter the cursor to the corresponding color
+function! s:GetColorEscapeCode(color)
+    return "\<Esc>]12;rgb:"
+                \ . printf('%x/%x/%x', a:color[0], a:color[1], a:color[2])
+                \ ."/79\x7"
 endfunction
 
-let s:cursorcolor_blue = "\<Esc>]12;rgb:61/af/ef\x7"
-let s:cursorcolor_red = "\<Esc>]12;rgb:e0/6c/75\x7"
-let s:cursorcolor_green = "\<Esc>]12;rgb:98/c3/79\x7"
-let s:cursorcolor_white = "\<Esc>]12;rgb:98/c3/79\x7"
-let s:cursorcolor_insert = s:cursorcolor_blue
-let s:cursorcolor_replace = s:cursorcolor_red
-let s:cursorcolor_default = s:cursorcolor_green
-" let s:cursorcolor_leave = "\<Esc>]112;"
-let s:cursorcolor_leave = ""
+" Only alter colors if the user has defined the color values for each mode
+let s:cursorcolor_insert = exists("g:togglecursor#insert_color") ?
+            \ s:GetColorEscapeCode(g:togglecursor#insert_color) : ""
+let s:cursorcolor_replace = exists("g:togglecursor#replace_color") ?
+            \ s:GetColorEscapeCode(g:togglecursor#replace_color) : ""
+let s:cursorcolor_default = exists("g:togglecursor#default_color") ?
+            \ s:GetColorEscapeCode(g:togglecursor#default_color) : ""
+
+let s:cursorcolor_leave = "\033]112\007"
 
 let s:cursorshape_underline = "\<Esc>]50;CursorShape=2;BlinkingCursorEnabled=0\x7"
 let s:cursorshape_line = "\<Esc>]50;CursorShape=1;BlinkingCursorEnabled=0\x7"
@@ -223,7 +227,8 @@ function! s:ToggleCursorLeave()
     " One of the last codes emitted to the terminal before exiting is the "out
     " of termcap" sequence.  Tack our escape sequence to change the cursor type
     " onto the beginning of the sequence.
-    let &t_te = s:GetEscapeCode(g:togglecursor_leave, s:cursorcolor_leave) . &t_te
+    let &t_te = s:GetEscapeCode(g:togglecursor_leave, s:cursorcolor_leave)
+                \ . &t_te
 endfunction
 
 function! s:ToggleCursorByMode()
