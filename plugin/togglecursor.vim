@@ -45,12 +45,12 @@ function! s:GetColorEscapeCode(color)
 endfunction
 
 " Only alter colors if the user has defined the color values for each mode
-let s:cursorcolor_insert = exists("g:togglecursor#insert_color") ?
-            \ s:GetColorEscapeCode(g:togglecursor#insert_color) : ""
-let s:cursorcolor_replace = exists("g:togglecursor#replace_color") ?
-            \ s:GetColorEscapeCode(g:togglecursor#replace_color) : ""
-let s:cursorcolor_default = exists("g:togglecursor#default_color") ?
-            \ s:GetColorEscapeCode(g:togglecursor#default_color) : ""
+let s:cursorcolor_insert = exists("g:togglecursor_insert_color") ?
+            \ s:GetColorEscapeCode(g:togglecursor_insert_color) : ""
+let s:cursorcolor_replace = exists("g:togglecursor_replace_color") ?
+            \ s:GetColorEscapeCode(g:togglecursor_replace_color) : ""
+let s:cursorcolor_default = exists("g:togglecursor_default_color") ?
+            \ s:GetColorEscapeCode(g:togglecursor_default_color) : ""
 
 let s:cursorcolor_leave = "\033]112\007"
 
