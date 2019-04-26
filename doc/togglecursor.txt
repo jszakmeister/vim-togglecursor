@@ -159,6 +159,9 @@ intensity, and 255 specifying maximum intensity. For example: >
     let g:togglecursor_replace_color = [150, 150, 150]
 <
 would set the cursor to a medium grey upon entering normal or visual mode.
+If you want to set the cursor to a single color without it changing between
+modes, either only define the default color, or define all three mode colors
+to be same.
 
 ==============================================================================
 LIMITATIONS                                      *togglecursor-limitations*
