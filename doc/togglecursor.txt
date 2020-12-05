@@ -68,21 +68,11 @@ g:togglecursor_force    Force togglecursor to use a particular mechanism to
                         uses the DESCCUSR escape sequence) and 'cursorshape'
                         (what Konsole uses).
 
-                                                 *togglecursor_disable_tmux*
+                                             *togglecursor_enable_tmux_escaping*
 
-In some versions of tmux, the passthrough handling appears to be slightly
-broken.  When you are on the last line of a short file, and delete a line with
-'dd', tmux appears to insert an extra line into the mix and distorts the
-terminal.  It appears to be fixed in tmux 1.7.  If you'd like to disable using
-tmux passthrough support to try and change the cursor, do the following in
-your vimrc: >
-
-    let g:togglecursor_disable_tmux = 1
-
-The default value for |togglecursor_disable_tmux| is 0.
-
-Note: options should be overridden in your vimrc.  Changing them after Vim has
-loaded will have little or no effect.
+tmux has supported the ability to directly change the cursor for some time now.
+If you're using an old version that cannot handle this, then you can enable the
+old escaping behavior.  This shouldn't be necessary with modern tmux.
 
                                                  *togglecursor_disable_neovim*
 Note: This option is no longer supported.  Neovim adopted a different mechanism

@@ -40,8 +40,6 @@ let s:xterm_blinking_block = "\<Esc>[0 q"
 let s:xterm_blinking_line = "\<Esc>[5 q"
 let s:xterm_blinking_underline = "\<Esc>[3 q"
 
-let s:in_tmux = exists("$TMUX")
-
 " Detect whether this version of vim supports changing the replace cursor
 " natively.
 let s:sr_supported = exists("+t_SR")
@@ -119,9 +117,16 @@ if !exists("g:togglecursor_leave")
     endif
 endif
 
-if !exists("g:togglecursor_disable_tmux")
-    let g:togglecursor_disable_tmux = 0
+if !exists("g:togglecursor_enable_tmux_escaping")
+    let g:togglecursor_enable_tmux_escaping = 0
 endif
+
+if g:togglecursor_enable_tmux_escaping
+    let s:in_tmux = exists("$TMUX")
+else
+    let s:in_tmux = 0
+endif
+
 
 " -------------------------------------------------------------
 " Functions
@@ -134,7 +139,7 @@ function! s:TmuxEscape(line)
 endfunction
 
 function! s:SupportedTerminal()
-    if s:supported_terminal == '' || (s:in_tmux && g:togglecursor_disable_tmux)
+    if s:supported_terminal == ''
         return 0
     endif
 
