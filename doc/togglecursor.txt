@@ -85,18 +85,8 @@ Note: options should be overridden in your vimrc.  Changing them after Vim has
 loaded will have little or no effect.
 
                                                  *togglecursor_disable_neovim*
-By default, togglecursor will detect the presence of Neovim and turn on
-NVIM_TUI_ENABLE_CURSOR_SHAPE environment variable for you.  If you don't want
-this behavior, you can add the following to your vimrc: >
-
-    let g:togglecursor_disable_neovim = 1
-<
-Note: if you've already defined NVIM_TUI_ENABLE_CURSOR_SHAPE to a non-empty
-value, then togglecursor will leave it alone.  Also, Neovim's environment
-variable detection can't tell the difference between an unset variable and
-an empty variable.  So togglecursor may enable cursor support even though you've
-attempted to opt-out of it.  Setting g:togglecursor_disable_neovim will keep
-togglecursor from attempting to set the NVIM_TUI_ENABLE_CURSOR_SHAPE variable.
+Note: This option is no longer supported.  Neovim adopted a different mechanism
+for enabling the cursor, so this is no longer necessary.
 
                                              *togglecursor_disable_default_init*
 To support changing the normal mode cursor, togglecursor modifies 't_ti' to
