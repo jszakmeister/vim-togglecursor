@@ -74,6 +74,17 @@ tmux has supported the ability to directly change the cursor for some time now.
 If you're using an old version that cannot handle this, then you can enable the
 old escaping behavior.  This shouldn't be necessary with modern tmux.
 
+                                       *togglecursor_enable_gnu_screen_escaping*
+Enables GNU Screen support by checking if the 'STY' environment variable is set.
+When turned on, the cursor toggle should behave as expected both within a screen
+session and when exiting screen.
+
+To turn it on, you can set the g:togglecursor_enable_gnu_screen_escaping
+to a non-zero value in your vimrc: >
+
+    let g:togglecursor_enable_gnu_screen_escaping = 1
+<
+
                                                  *togglecursor_disable_neovim*
 Note: This option is no longer supported.  Neovim adopted a different mechanism
 for enabling the cursor, so this is no longer necessary.
