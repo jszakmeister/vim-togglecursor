@@ -68,6 +68,8 @@ if s:supported_terminal == ""
         let s:supported_terminal = 'xterm'
     elseif $TERM_PROGRAM == "WezTerm"
         let s:supported_terminal = 'xterm'
+    elseif $TERM_PROGRAM == "ghostty"
+        let s:supported_terminal = 'xterm'
     elseif $TERM == "xterm-kitty"
         let s:supported_terminal = 'xterm'
     elseif $TERM == "rxvt-unicode" || $TERM == "rxvt-unicode-256color"
