@@ -32,7 +32,7 @@ Togglecursor.  The general outline is::
         " Set the kind of escape sequences to use.  Most use xterm-style
         " escaping, there are a few that use the iterm (CursorShape) style
         " sequences.  The two acceptable values to use here are: 'xterm'
-        " and 'iterm'.
+        " and 'cursorshape'.
         let g:togglecursor_force = 'xterm'
     endif
 
