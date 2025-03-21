@@ -133,6 +133,15 @@ else
     let s:in_tmux = 0
 endif
 
+if !exists("g:togglecursor_enable_gnu_screen_escaping")
+    let g:togglecursor_enable_gnu_screen_escaping = 0
+endif
+
+if g:togglecursor_enable_gnu_screen_escaping
+    let s:in_gnu_screen = exists("$STY")
+else
+    let s:in_gnu_screen = 0
+endif
 
 " -------------------------------------------------------------
 " Functions
@@ -142,6 +151,11 @@ function! s:TmuxEscape(line)
     " Tmux has an escape hatch for talking to the real terminal.  Use it.
     let escaped_line = substitute(a:line, "\<Esc>", "\<Esc>\<Esc>", 'g')
     return "\<Esc>Ptmux;" . escaped_line . "\<Esc>\\"
+endfunction
+
+function! s:GnuScreenEscape(line)
+    let escaped_line = substitute(a:line, "\<Esc>", "\eP\e", 'g')
+    return escaped_line . "\e\\"
 endfunction
 
 function! s:SupportedTerminal()
@@ -161,6 +175,10 @@ function! s:GetEscapeCode(shape)
 
     if s:in_tmux
         return s:TmuxEscape(l:escape_code)
+    endif
+
+    if s:in_gnu_screen
+        return s:GnuScreenEscape(l:escape_code)
     endif
 
     return l:escape_code
