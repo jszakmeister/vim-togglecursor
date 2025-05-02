@@ -59,7 +59,8 @@ g:togglecursor_leave    The cursor shape to set when exiting Vim.  The default
 
                                                  *togglecursor_replace*
 g:togglecursor_replace  The replace mode cursor shape.  The default value is
-                        'underline'.
+                        'blinking_underline', where it's known to be supported,
+                        and 'underline' otherwise.
 
                                                  *togglecursor_force*
 g:togglecursor_force    Force togglecursor to use a particular mechanism to
