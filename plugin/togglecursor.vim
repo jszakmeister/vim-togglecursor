@@ -80,6 +80,10 @@ if s:supported_terminal == ""
         let s:supported_terminal = 'xterm'
     elseif s:GetXtermVersion($XTERM_VERSION) >= 252
         let s:supported_terminal = 'xterm'
+    elseif str2nr($KONSOLE_VERSION) >= 180800
+        " As of Konsole version 18.08, xterm-style escape sequences are
+        " supported; using them makes togglecursor work with tmux under Konsole.
+        let s:supported_terminal = 'xterm'
     elseif $TERM_PROGRAM == "Konsole" || exists("$KONSOLE_DBUS_SESSION")
         " This detection is not perfect.  KONSOLE_DBUS_SESSION seems to show
         " up in the environment despite running under tmux in an ssh
