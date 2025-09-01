@@ -67,7 +67,8 @@ g:togglecursor_force    Force togglecursor to use a particular mechanism to
                         change the cursor.  Setting this turns off automatic
                         detection.  The only valid choices are 'xterm' (which
                         uses the DESCCUSR escape sequence) and 'cursorshape'
-                        (what Konsole uses).
+                        (what Konsole used exclusively before version 18.08;
+                        as of version 18.08, Konsole also supports 'xterm').
 
                                              *togglecursor_enable_tmux_escaping*
 
@@ -154,6 +155,11 @@ Simply add the following line to the file: >
 
     SendEnv TERM_PROGRAM
 <
+If you use Konsole, you can additionally send these Konsole-specific
+variables: >
+
+    SendEnv KONSOLE_DBUS_SESSION KONSOLE_VERSION
+<
 On the server side, the configuration is typically in /etc/ssh/sshd_config.  Add
 TERM_PROGRAM to the list of accepted environment variables.  It should look
 something like this: >
@@ -163,6 +169,11 @@ something like this: >
 Now the TERM_PROGRAM environment variable will be passed to the remote session
 and togglecursor will be able to change the cursor correctly.
 
+If you use Konsole, you can additionally accept these Konsole-specific
+variables: >
+
+    AcceptEnv KONSOLE_DBUS_SESSION KONSOLE_VERSION
+<
 You can configure Konsole to set TERM_PROGRAM by editing the environment in
 'Settings->Edit Current Profile->General' and adding the following line: >
 
@@ -181,7 +192,8 @@ something like the following to file: >
     Defaults env_keep += "TERM_PROGRAM VTE_VERSION XTERM_VERSION"
 <
 The exact variables to add depend on what you use.  For instance, if you use
-Konsole, you may need to add KONSOLE_DBUS_SESSION to the list.
+Konsole, you may need to add KONSOLE_DBUS_SESSION and KONSOLE_VERSION to the
+list.
 
 Another alternative is to set |togglecursor_force| to the correct value for the
 terminal you use and skip autodetection.
